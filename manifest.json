@@ -1,0 +1,132 @@
+{
+  "manifest_version": 2,
+  "name": "beth",
+  "description": "beth",
+  "version": "0.0.7.1",
+  "browser_action": {
+	"default_icon": "icon.png",
+	"default_name": "beth",
+	"default_title": "beth",
+	"default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "icons": {
+	"16": "icon.png",
+	"48": "icon.png",
+	"128": "icon.png"
+  },
+  "background": {
+	"scripts": [
+	  "javascripts/jquery-2.1.3.min.js",
+	  "javascripts/remote_api.js",
+	  "javascripts/dama.js",
+	  "background.js"
+	]
+  },
+  "content_scripts": [
+	{
+	  "//":"common",
+	  "matches": ["*://*.jd.com/*"],
+	  "js": [
+		"javascripts/jquery-2.1.3.min.js",
+		"javascripts/remote_api.js",
+		"javascripts/init.js",
+		"javascripts/dama.js"
+	  ],
+	  "run_at": "document_start"
+	},
+	{
+	  "//":"index",
+	  "matches": ["*://www.jd.com/*"],
+	  "js": ["javascripts/jd/index.js"],
+	  "run_at": "document_end"
+	},
+	{
+	  "//":"login",
+	  "matches": [
+		"https://passport.jd.com/uc/login*",
+		"https://passport.jd.com/new/login*"
+	  ],
+	  "js": ["javascripts/jd/login.js"],
+	  "run_at": "document_end"
+	},
+	{
+	  "//":"verify",
+	  "js":["javascripts/jd/dangerous_verify.js"],
+	  "run_at": "document_end",
+	  "matches": [ "*://safe.jd.com/dangerousVerify/index.action*"]
+	},
+	{
+	  "//":"我的订单",
+	  "js":["javascripts/jd/list_action.js"],
+	  "run_at": "document_end",
+	  "matches": [ "*://order.jd.com/center/list.action*"]
+	},
+	{
+	  "//":"个人信息",
+	  "js":["javascripts/jd/user_info.js"],
+	  "run_at": "document_end",
+	  "matches": [
+		"*://i.jd.com/user/info*",
+		"*://i.jd.com/user/userinfo/showBaseInfo.action*"
+	  ]
+	},
+	{
+	  "//":"账户安全",
+	  "js":["javascripts/jd/safe_center.js"],
+	  "run_at": "document_end",
+	  "matches": [ "*://safe.jd.com/user/paymentpassword/safetyCenter.action*"]
+	},
+	{
+	  "//":"修改登录密码",
+	  "js":["javascripts/jd/update_password.js"],
+	  "run_at": "document_end",
+	  "matches": [
+		"*://safe.jd.com/validate/updatePassword*",
+		"*://safe.jd.com/validate/password/updatePassword.action*"
+	  ]
+	},
+	{
+	  "//":"登录密码修改成功",
+	  "js":["javascripts/jd/update_password_success.js"],
+	  "run_at": "document_end",
+	  "matches": [ "*://safe.jd.com/validate/password/updatePasswordSuccess.action*"]
+	},
+	{
+	  "//":"修改支付密码：findByPin--支付密码管理；updatePayPwd--修改支付密码",
+	  "js":["javascripts/jd/update_pay_password.js"],
+	  "run_at": "document_end",
+	  "matches": [
+		"*://safe.jd.com/user/paymentpassword/findByPin.action*",
+		"*://safe.jd.com/validate/payPwd/updatePayPwd.action*"
+	  ]
+	},
+	{
+	  "//":"支付密码修改成功",
+	  "js":["javascripts/jd/update_pay_password_success.js"],
+	  "run_at": "document_end",
+	  "matches": [
+		"*://safe.jd.com/validate/payPwd/openPayPwdSuccess.action*",
+		"*://safe.jd.com/validate/payPwd/openPayPwdSuccess.action?type=updatePayPwd"
+	  ]
+	},
+	{
+	  "js":["javascripts/jd/pwd_reset_action.js"],
+	  "run_at": "document_end",
+	  "matches": [ "*://safe.jd.com/resetPwd/reset.action*"]
+	}
+  ],
+  "permissions": [
+	"tabs",
+	"background",
+	"browsingData",
+	"clipboardRead",
+	"clipboardWrite",
+	"cookies",
+	"notifications",
+	"storage",
+	"webRequest",
+	"webRequestBlocking",
+	"<all_urls>"
+  ]
+}
